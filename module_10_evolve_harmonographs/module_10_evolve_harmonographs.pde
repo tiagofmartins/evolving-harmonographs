@@ -1,6 +1,7 @@
 int population_size = 60;
 int elite_size = 1;
 int tournament_size = 3;
+float crossover_rate = 0.7;
 float mutation_rate = 0.2;
 int resolution = 100;
 String path_target_image = "1646506902776/V.png";

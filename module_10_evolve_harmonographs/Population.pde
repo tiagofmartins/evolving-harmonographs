@@ -35,10 +35,31 @@ class Population {
   
   // Create the next generation
   void evolve() {
+    // IMPORTANT NOTE: This method replaces the method createNewIndividuals() implemented in the previous program.
     
-    // TODO Implement the body of the method.
-    // NOTE This method replaces the method createNewIndividuals() implemented in the previous program.
+    // Create a new a array to store the individuals that will be in the next generation
+    // TODO
     
+    // Copy the elite to the next generation (we assume that the individuals are already sorted by fitness)
+    // TODO
+    
+    // Create (breed) new individuals with crossover
+    // TODO
+    
+    // Mutate new individuals
+    // TODO
+    
+    // Evaluate new individuals
+    // TODO
+    
+    // Replace the individuals in the population with the new generation individuals
+    // TODO
+    
+    // Sort individuals in the population by fitness
+    // TODO
+    
+    // Increment the number of generations
+    // TODO
   }
   
   // Select one individual using a tournament selection 
