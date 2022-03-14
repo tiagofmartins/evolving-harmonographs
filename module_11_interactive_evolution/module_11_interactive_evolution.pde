@@ -88,7 +88,11 @@ void keyReleased() {
 void mouseReleased() {
   // Set fitness of clicked individual to 1
   if (hovered_indiv != null) {
-    hovered_indiv.setFitness(1);
+    if (hovered_indiv.getFitness() < 1) {
+      hovered_indiv.setFitness(1);
+    } else {
+      hovered_indiv.setFitness(0);
+    }
   }
 }
 

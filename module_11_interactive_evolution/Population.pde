@@ -48,7 +48,7 @@ class Population {
         Harmonograph child = parent1.onePointCrossover(parent2);
         new_generation[i] = child;
       } else {
-        new_generation[i] = tournamentSelection();
+        new_generation[i] = tournamentSelection().getCopy();
       }
     }
     

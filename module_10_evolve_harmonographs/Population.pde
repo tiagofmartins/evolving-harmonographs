@@ -45,13 +45,13 @@ class Population {
     
     // Create (breed) new individuals with crossover
     for (int i = elite_size; i < new_generation.length; i++) {
-      if (random(1) < crossover_rate) {
+      if (random(1) <= crossover_rate) {
         Harmonograph parent1 = tournamentSelection();
         Harmonograph parent2 = tournamentSelection();
         Harmonograph child = parent1.onePointCrossover(parent2);
         new_generation[i] = child;
       } else {
-        new_generation[i] = tournamentSelection();
+        new_generation[i] = tournamentSelection().getCopy();
       }
     }
     
