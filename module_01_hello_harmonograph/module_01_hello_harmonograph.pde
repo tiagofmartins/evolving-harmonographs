@@ -2,11 +2,11 @@ size(600, 600);
 smooth(8);
 background(255);
 
-// Array with the normalised values of the harmanograph parameters
+// Array with the normalised values of the harmonograph parameters
 // All values in this array are in the range [0, 1].
 float[] params = {0.417, 0.275, 0.018, 0.113, 0.110, 0.406, 0.555, 0.095, 0.048, 0.512, 0.156, 0.472, 0.080, 0.037, 0.997, 0.448, 0.723, 0.249, 0.598, 0.824};
 
-// Individual variables for the harmanograph parameters.
+// Individual variables for the harmonograph parameters.
 // The values of the parameters are now in different ranges.
 float a1 = width * (0.15 + 0.1 * params[0]); // amplitude 1
 float a2 = width * (0.15 + 0.1 * params[1]); // amplitude 2

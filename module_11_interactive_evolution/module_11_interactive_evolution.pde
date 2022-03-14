@@ -1,15 +1,13 @@
-int population_size = 100;
+int population_size = 21;
 int elite_size = 1;
 int tournament_size = 3;
 float crossover_rate = 0.7;
-float mutation_rate = 0.2;
-int resolution = 100;
-String path_target_image = "1646506902776/V.png";
+float mutation_rate = 0.3;
+int resolution = 200;
 
 Population pop;
 PVector[][] grid;
-boolean show_phenotypes = false;
-boolean show_fitness = true;
+Harmonograph hovered_indiv = null;
 
 void settings() {
   size(int(displayWidth * 0.9), int(displayHeight * 0.8));
@@ -24,26 +22,31 @@ void setup() {
 }
 
 void draw() {
-  pop.evolve();
-  println("Generations: " + pop.getGenerations());
-  background(show_phenotypes ? 255 : 0);
+  background(235);
+  hovered_indiv = null; // Temporarily clear selected individual 
   int row = 0, col = 0;
   for (int i = 0; i < pop.getSize(); i++) {
+    float x = grid[row][col].x;
+    float y = grid[row][col].y;
+    float d = grid[row][col].z;
+    // Check if current individual is hovered by the cursor
     noFill();
-    if (show_phenotypes) {
-      image(pop.getIndiv(i).getPhenotype(resolution), grid[row][col].x, grid[row][col].y, grid[row][col].z, grid[row][col].z);
-      strokeWeight(1);
+    if (mouseX > x && mouseX < x + d && mouseY > y && mouseY < y + d) {
+      hovered_indiv = pop.getIndiv(i);
       stroke(0);
-      rect(grid[row][col].x, grid[row][col].y, grid[row][col].z, grid[row][col].z);
-    } else {
-      strokeWeight(max(grid[row][col].z * 0.01, 1));
-      stroke(255, 80);
-      pop.getIndiv(i).renderPoints(getGraphics(), grid[row][col].x + grid[row][col].z / 2, grid[row][col].y + grid[row][col].z / 2, grid[row][col].z, grid[row][col].z);
+      strokeWeight(3);
+      rect(x, y, d, d);
+    } else if (pop.getIndiv(i).getFitness() > 0) {
+      stroke(100, 255, 100);
+      strokeWeight(map(pop.getIndiv(i).getFitness(), 0, 1, 3, 6));
+      rect(x, y, d, d);
     }
-    if (show_fitness) {
-      fill(show_phenotypes ? 80 : 128);
-      text(nf(pop.getIndiv(i).getFitness(), 0, 4), grid[row][col].x + grid[row][col].z / 2, grid[row][col].y + grid[row][col].z + 2);
-    }
+    // Draw phenotype of current individual
+    image(pop.getIndiv(i).getPhenotype(resolution), x, y, d, d);
+    // Draw fitness of current individual
+    fill(0);
+    text(nf(pop.getIndiv(i).getFitness(), 0, 2), x + d / 2, y + d + 2);
+    // Go to next grid cell
     col += 1;
     if (col >= grid[row].length) {
       row += 1;
@@ -53,12 +56,39 @@ void draw() {
 }
 
 void keyReleased() {
-  if (key == 'e') {
-    pop.getIndiv(0).export();
-  } else if (key == 'p') {
-    show_phenotypes = !show_phenotypes;
-  } else if (key == 'f') {
-    show_fitness = !show_fitness;
+  if (key == CODED) {
+    if (hovered_indiv != null) {
+      // Change fitness of the selected (hovered) individual
+      float fit = hovered_indiv.getFitness();
+      if (keyCode == UP) {
+        fit = min(fit + 0.1, 1);
+      } else if (keyCode == DOWN) {
+        fit = max(fit - 0.1, 0);
+      } else if (keyCode == RIGHT) {
+        fit = 1;
+      } else if (keyCode == LEFT) {
+        fit = 0;
+      }
+      hovered_indiv.setFitness(fit);
+    }
+  } else if (key == ' ') {
+    // Evolve (generate new population)
+    pop.evolve();
+  } else if (key == 'i') {
+    // Initialise new population
+    pop.initialize();
+  } else if (key == 'e') {
+    // Export selected individual
+    if (hovered_indiv != null) {
+      hovered_indiv.export();
+    }
+  }
+}
+
+void mouseReleased() {
+  // Set fitness of clicked individual to 1
+  if (hovered_indiv != null) {
+    hovered_indiv.setFitness(1);
   }
 }
 

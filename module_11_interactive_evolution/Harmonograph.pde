@@ -6,7 +6,7 @@ class Harmonograph {
   float[] genes = new float[20]; // Array of genes that store the values of the harmonograph parameters
   float fitness = 0; // Fitness value
   float time_max = 100;
-  float time_step = 0.1;
+  float time_step = 0.05;
   ArrayList<PVector> points = new ArrayList<PVector>();
   
   // Create a random harmonograph
