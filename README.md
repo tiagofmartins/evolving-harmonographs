@@ -1,11 +1,9 @@
 # Evolving harmonographs
 
-This tutorial covers the implementation and application of a Genetic Algorithm on a generative design process.
-
-The goal of the tutorial is to evolve computer-generated drawings. In particular, we will be evolving [harmonographs](https://en.wikipedia.org/wiki/Harmonograph). To be precise, we will evolve a set of parameters that control the algorithmic drawing of harmonographs.
+This tutorial covers the implementation and application of a Genetic Algorithm on a generative design process. The goal is to evolve computer-generated drawings. In particular, we will be evolving [harmonographs](https://en.wikipedia.org/wiki/Harmonograph). To be precise, we will evolve a set of parameters that control the algorithmic drawing of harmonographs.
 
 ![](images/evolving-A.png)
-*Screenshot of a population of harmonographs being evolved to resemble the letter A*
+*Population of harmonographs evolved to resemble the letter A*
 
 ### Modules
 
@@ -19,6 +17,7 @@ The tutorial is structured in a series of modules:
 6. Mutate harmonographs
 7. Evaluate harmonographs
 8. Tournament of harmonographs
+9. Elite harmonographs
 10. Automatic evolution of harmonographs
 11. Interactive evolution of harmonographs
 
@@ -26,7 +25,14 @@ Each module consists of a Processing *sketch* that implements and demonstrates a
 
 ### Prerequisites
 
-- Intermediate Processing (*e.g.* the ability to work with arrays and create classes).
+- Intermediate Processing (*e.g.* the ability to work with arrays and create classes)
+
+### References
+
+- Martins, T. (2021). *Automated Evolution for Design*. University of Coimbra, Portugal. [[link](https://estudogeral.sib.uc.pt/handle/10316/96431)]
+- Shiffman, D. (2012). *The Evolution of Code*. In The Nature of Code (pp. 390–443). [[link](https://natureofcode.com/book/chapter-9-the-evolution-of-code/)]
+- Lewis, M. (2008). *Evolutionary Visual Art and Design*. In J. Romero & P. Machado (Eds.), The Art of Artificial Evolution: A Handbook on Evolutionary Art and Music (pp. 3–37). Springer Berlin Heidelberg. [[link](https://link.springer.com/chapter/10.1007/978-3-540-72877-1_1)]
+- Machado, P., Romero, J., & Manaris, B. (2008). *Experiments in Computational Aesthetics*. In J. Romero & P. Machado (Eds.), The Art of Artificial Evolution: A Handbook on Evolutionary Art and Music (pp. 381–415). Springer Berlin Heidelberg. [[link](https://link.springer.com/chapter/10.1007/978-3-540-72877-1_18)]
 
 ### Credits
 
