@@ -1,6 +1,6 @@
 # Evolution
 
-![](../images/evolution.gif)
+![](../images/automatic-evolution.gif)
 *Screenshot harmonographs being evolved to resemble the letter V*
 
 ### TODO

@@ -1,6 +1,9 @@
 // This program export images of glyphs to be used as target images.
 
-String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+// ABCDEFGHIJKLMNOPQRSTUVWXYZ
+// abcdefghijklmnopqrstuvwxyz
+// 0123456789
+String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 String path_output_dir = sketchPath("output/" + System.currentTimeMillis());
 PGraphics pg = createGraphics(300, 300);
 PFont font = createFont("RobotoMono-Bold.ttf", pg.height * 0.925);

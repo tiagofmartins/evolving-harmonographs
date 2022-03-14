@@ -19,8 +19,8 @@ The tutorial is structured in a series of modules:
 6. Mutate harmonographs
 7. Evaluate harmonographs
 8. Tournament of harmonographs
-9. Elite harmonographs
-10. Evolve harmonographs
+10. Automatic evolution of harmonographs
+11. Interactive evolution of harmonographs
 
 Each module consists of a Processing *sketch* that implements and demonstrates a particular evolutionary concept or mechanism. The modules are linked and sequenced to pave the way for the development of an evolutionary system at the end.
 

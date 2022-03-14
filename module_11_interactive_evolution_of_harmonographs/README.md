@@ -4,7 +4,7 @@ This module demonstrates the use of an **Interactive Genetic Algorithm** to evol
 
 Users may assign the fitness of harmonographs in a continuous value between `0` and `1`. To do so, they should hover over their favourite individuals and use the arrow keyboard to increase or decrease their fitness. This algorithm is developed based on the previous proposed automatic approach, also implementing an elitist approach and a tournament-based selection.
 
-![](../images/iga.gif)
+![](../images/interactive-evolution.gif)
 
 ### Challenges
 
