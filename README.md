@@ -25,7 +25,7 @@ Each module consists of a Processing *sketch* that implements and demonstrates a
 
 ### Prerequisites
 
-- Intermediate knowledge of Processing (*e.g.* the ability to work with arrays and classes)
+- Intermediate knowledge of Processing (including the ability to work with arrays and classes)
 
 ### References
 
