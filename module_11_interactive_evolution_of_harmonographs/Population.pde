@@ -4,12 +4,10 @@ import java.util.*; // Needed to sort arrays
 class Population {
   
   Harmonograph[] individuals; // Array to store the individuals in the population
-  Evaluator evaluator; // Object to calculate fitness of individuals
   int generations; // Integer to keep count of how many generations have been created
   
   Population() {
     individuals = new Harmonograph[population_size];
-    evaluator = new Evaluator(loadImage(path_target_image), resolution);
     initialize();
   }
   
@@ -20,14 +18,10 @@ class Population {
       individuals[i] = new Harmonograph();
     }
     
-    // Evaluate individuals
+    // Set initial fitness of individuals to 0
     for (int i = 0; i < individuals.length; i++) {
-      float fitness = evaluator.calculateFitness(individuals[i]);
-      individuals[i].setFitness(fitness);
+      individuals[i].setFitness(0);
     }
-    
-    // Sort individuals in the population by fitness (fittest first)
-    sortIndividualsByFitness();
     
     // Reset generations counter
     generations = 0;
@@ -35,10 +29,13 @@ class Population {
   
   // Create the next generation
   void evolve() {
-    // Create a new a ,array to store the individuals that will be in the next generation
+    // Create a new a array to store the individuals that will be in the next generation
     Harmonograph[] new_generation = new Harmonograph[individuals.length];
     
-    // Copy the elite to the next generation (we assume that the individuals are already sorted by fitness)
+    // Sort individuals by fitness
+    sortIndividualsByFitness();
+    
+    // Copy the elite to the next generation
     for (int i = 0; i < elite_size; i++) {
       new_generation[i] = individuals[i].getCopy();
     }
@@ -57,13 +54,7 @@ class Population {
     
     // Mutate new individuals
     for (int i = elite_size; i < new_generation.length; i++) {
-      new_generation[i].mutate();
-    }
-    
-    // Evaluate new individuals
-    for (int i = elite_size; i < individuals.length; i++) {
-      float fitness = evaluator.calculateFitness(new_generation[i]);
-      new_generation[i].setFitness(fitness);
+       new_generation[i].mutate();
     }
     
     // Replace the individuals in the population with the new generation individuals
@@ -71,8 +62,10 @@ class Population {
       individuals[i] = new_generation[i];
     }
     
-    // Sort individuals in the population by fitness
-    sortIndividualsByFitness();
+    // Reset the fitness of all individuals to 0, excluding elite
+    for (int i = 0; i < individuals.length; i++) {
+       individuals[i].setFitness(0);
+    }
     
     // Increment the number of generations
     generations++;
