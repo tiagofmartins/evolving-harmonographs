@@ -36,25 +36,44 @@ class Population {
   // Create the next generation
   void evolve() {
     // Create a new array to store the individuals that will be in the next generation
-    // TODO
+    Harmonograph[] new_generation = new Harmonograph[individuals.length];
     
     // Copy the elite to the next generation (we assume that the individuals are already sorted by fitness)
-    // TODO
+    for (int i = 0; i < elite_size; i++) {
+      new_generation[i] = individuals[i].getCopy();
+    }
     
     // Create (breed) new individuals with crossover
-    // TODO
+    for (int i = elite_size; i < new_generation.length; i++) {
+      if (random(1) <= crossover_rate) {
+        Harmonograph parent1 = tournamentSelection();
+        Harmonograph parent2 = tournamentSelection();
+        //Harmonograph child = parent1.onePointCrossover(parent2);
+        Harmonograph child = parent1.uniformCrossover(parent2);
+        new_generation[i] = child;
+      } else {
+        new_generation[i] = tournamentSelection().getCopy();
+      }
+    }
     
     // Mutate new individuals
-    // TODO
+    for (int i = elite_size; i < new_generation.length; i++) {
+      new_generation[i].mutate();
+    }
     
     // Evaluate new individuals
-    // TODO
+    for (int i = elite_size; i < individuals.length; i++) {
+      float fitness = evaluator.calculateFitness(new_generation[i]);
+      new_generation[i].setFitness(fitness);
+    }
     
     // Replace the individuals in the population with the new generation individuals
-    // TODO
+    for (int i = 0; i < individuals.length; i++) {
+      individuals[i] = new_generation[i];
+    }
     
     // Sort individuals in the population by fitness
-    // TODO
+    sortIndividualsByFitness();
     
     // Increment the number of generations
     generations++;
