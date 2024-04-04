@@ -1,8 +1,8 @@
-int population_size = 21;
+int population_size = 30;
 int elite_size = 1;
-int tournament_size = 3;
-float crossover_rate = 0.7;
-float mutation_rate = 0.2;
+int tournament_size = 2;
+float crossover_rate = 0.5;
+float mutation_rate = 0.4;
 int resolution = 256;
 
 Population pop;
@@ -16,9 +16,8 @@ void settings() {
 
 void setup() {
   pop = new Population();
-  cells = calculateGrid(population_size, 0, 0, width, height, 30, 10, 30, true);
+  cells = calculateGrid(population_size, 0, 0, width, height - 30, 30, 10, 30, true);
   textSize(constrain(cells[0][0].z * 0.15, 11, 14));
-  textAlign(CENTER, TOP);
 }
 
 void draw() {
@@ -30,22 +29,20 @@ void draw() {
     float y = cells[row][col].y;
     float d = cells[row][col].z;
     // Check if current individual is hovered by the cursor
-    noFill();
+    noStroke();
+    fill(0);
     if (mouseX > x && mouseX < x + d && mouseY > y && mouseY < y + d) {
       hovered_indiv = pop.getIndiv(i);
-      stroke(0);
-      strokeWeight(3);
-      rect(x, y, d, d);
+      rect(x - 1, y - 1, d + 2, d + 2);
     }
     if (pop.getIndiv(i).getFitness() > 0) {
-      stroke(50, 100, 200);
-      strokeWeight(6);
-      rect(x, y, d, d);
+      rect(x - 3, y - 3, d + 6, d + 6);
     }
     // Draw phenotype of current individual
     image(pop.getIndiv(i).getPhenotype(resolution), x, y, d, d);
     // Draw fitness of current individual
     fill(0);
+    textAlign(CENTER, TOP);
     text(nf(pop.getIndiv(i).getFitness(), 0, 2), x + d / 2, y + d + 5);
     // Go to next grid cell
     col += 1;
@@ -54,10 +51,30 @@ void draw() {
       col = 0;
     }
   }
+
+  // Draw text presenting controls
+  fill(128);
+  textSize(14);
+  textAlign(LEFT, BOTTOM);
+  text("Controls:     [click over indiv] set as preferred     [enter] evolve     [r] reset     [e] export individ hovered by the cursor", 30, height - 30);
 }
 
 void keyReleased() {
-  if (key == CODED) {
+  if (keyCode == ENTER || keyCode == RETURN) {
+    // Press key [enter] to evolve new generation
+    pop.evolve();
+  } else if (key == ' ') {
+    // Evolve (generate new population)
+    pop.evolve();
+  } else if (key == 'r') {
+    // Reset population
+    pop.initialize();
+  } else if (key == 'e') {
+    // Export selected individual
+    if (hovered_indiv != null) {
+      hovered_indiv.export();
+    }
+  } else {
     if (hovered_indiv != null) {
       // Change fitness of the selected (hovered) individual
       float fit = hovered_indiv.getFitness();
@@ -71,17 +88,6 @@ void keyReleased() {
         fit = 0;
       }
       hovered_indiv.setFitness(fit);
-    }
-  } else if (key == ' ') {
-    // Evolve (generate new population)
-    pop.evolve();
-  } else if (key == 'i') {
-    // Initialise new population
-    pop.initialize();
-  } else if (key == 'e') {
-    // Export selected individual
-    if (hovered_indiv != null) {
-      hovered_indiv.export();
     }
   }
 }

@@ -2,59 +2,53 @@ import processing.pdf.*; // Needed to export PDFs
 
 // This class represents and encodes a harmonograph.
 class Harmonograph {
-  
+
   float[] genes = new float[20]; // Array of genes that store the values of the harmonograph parameters
   float fitness = 0; // Fitness value
-  float time_max = 100;
-  float time_step = 0.05;
+  float time_max = 150;
+  float time_step = 0.025;
   ArrayList<PVector> points = new ArrayList<PVector>();
-  
+  PImage phenotype = null;
+
   // Create a random harmonograph
   Harmonograph() {
     randomize();
   }
-  
+
   // Create a harmonograph with the given genes
   Harmonograph(float[] genes_init) {
     for (int i = 0; i < genes_init.length; i++) {
       genes[i] = genes_init[i];
     }
   }
-  
-  // Set all genes to random values 
+
+  // Set all genes to random values
   void randomize() {
     for (int i = 0; i < genes.length; i++) {
       genes[i] = random(0, 1);
     }
+    phenotype = null;
   }
-  
-  // One-point crossover operator
-  Harmonograph onePointCrossover(Harmonograph partner) {
-    Harmonograph child = new Harmonograph();
-    int crossover_point = int(random(1, genes.length - 1));
-    for (int i = 0; i < genes.length; i++) {
-      if (i < crossover_point) {
-        child.genes[i] = genes[i];
-      } else {
-        child.genes[i] = partner.genes[i];
-      }
-    }
-    return child;
-  }
-  
+
   // Uniform crossover operator
-  Harmonograph uniformCrossover(Harmonograph partner) {
-    Harmonograph child = new Harmonograph();
-    for (int i = 0; i < genes.length; i++) {
+  Harmonograph[] uniformCrossover(Harmonograph partner) {
+    // Create clean copies of both parents
+    Harmonograph child1 = getCopy();
+    Harmonograph child2 = partner.getCopy();
+
+    // Recombine groups of genes
+    for (int i = 0; i < child1.genes.length; i++) {
       if (random(1) < 0.5) {
-        child.genes[i] = genes[i];
-      } else {
-        child.genes[i] = partner.genes[i];
+        Float geneTemp = child1.genes[i];
+        child1.genes[i] = child2.genes[i];
+        child2.genes[i] = geneTemp;
       }
     }
-    return child;
+    
+    // Return new individuals
+    return new Harmonograph[]{child1, child2};
   }
-  
+
   // Mutation operator
   void mutate() {
     for (int i = 0; i < genes.length; i++) {
@@ -63,27 +57,31 @@ class Harmonograph {
         genes[i] = constrain(genes[i] + random(-0.1, 0.1), 0, 1); // Adjust the value of the gene
       }
     }
+    phenotype = null;
   }
-  
+
   // Set the fitness value
   void setFitness(float fitness) {
     this.fitness = fitness;
   }
-  
+
   // Get the fitness value
   float getFitness() {
     return fitness;
   }
-  
+
   // Get a clean copy
   Harmonograph getCopy() {
     Harmonograph copy = new Harmonograph(genes);
     copy.fitness = fitness;
     return copy;
   }
-  
+
   // Get the phenotype (image)
   PImage getPhenotype(int resolution) {
+    if (phenotype != null && phenotype.height == resolution) {
+      return phenotype;
+    }
     PGraphics canvas = createGraphics(resolution, resolution);
     canvas.beginDraw();
     canvas.background(255);
@@ -92,9 +90,10 @@ class Harmonograph {
     canvas.strokeWeight(canvas.height * 0.002);
     render(canvas, canvas.width / 2, canvas.height / 2, canvas.width, canvas.height);
     canvas.endDraw();
+    phenotype = canvas.copy();
     return canvas;
   }
-  
+
   // Draw the harmonograph line on a given canvas, at a given position and with a given size
   void render(PGraphics canvas, float x, float y, float w, float h) {
     calculatePoints(w, h);
@@ -107,7 +106,7 @@ class Harmonograph {
     canvas.endShape();
     canvas.popMatrix();
   }
-  
+
   // Draw the harmonograph points on a given canvas, at a given position and with a given size
   void renderPoints(PGraphics canvas, float x, float y, float w, float h) {
     calculatePoints(w, h);
@@ -118,7 +117,7 @@ class Harmonograph {
     }
     canvas.popMatrix();
   }
-  
+
   // Calculate the points of this harmonograph
   void calculatePoints(float w, float h) {
     float a1 = w * (0.15 + 0.1 * genes[0]);
@@ -149,16 +148,16 @@ class Harmonograph {
       points.add(point);
     }
   }
-  
+
   // Export image (png), vector (pdf) and genes (txt) of this harmonograph
   void export() {
     String output_filename = year() + "-" + nf(month(), 2) + "-" + nf(day(), 2) + "-" +
-                             nf(hour(), 2) + "-" + nf(minute(), 2) + "-" + nf(second(), 2);
+      nf(hour(), 2) + "-" + nf(minute(), 2) + "-" + nf(second(), 2);
     String output_path = sketchPath("outputs/" + output_filename);
     println("Exporting harmonograph to: " + output_path);
-    
+
     getPhenotype(2000).save(output_path + ".png");
-    
+
     PGraphics pdf = createGraphics(500, 500, PDF, output_path + ".pdf");
     pdf.beginDraw();
     pdf.noFill();
@@ -167,7 +166,7 @@ class Harmonograph {
     render(pdf, pdf.width / 2, pdf.height / 2, pdf.width, pdf.height);
     pdf.dispose();
     pdf.endDraw();
-    
+
     String[] output_text_lines = new String[genes.length];
     for (int i = 0; i < genes.length; i++) {
       output_text_lines[i] = str(genes[i]);
