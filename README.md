@@ -34,7 +34,3 @@ Each module consists of a Processing *sketch* that implements and demonstrates a
 - Machado, P., Romero, J., & Manaris, B. (2008). *Experiments in Computational Aesthetics*. In J. Romero & P. Machado (Eds.), The Art of Artificial Evolution: A Handbook on Evolutionary Art and Music (pp. 381–415). Springer Berlin Heidelberg. [[link](https://link.springer.com/chapter/10.1007/978-3-540-72877-1_18)]
 - Martins, T. (2021). *Automated Evolution for Design*. University of Coimbra, Portugal. [[link](https://estudogeral.sib.uc.pt/handle/10316/96431)]
 - Shiffman, D. (2012). *The Evolution of Code*. In The Nature of Code (pp. 390–443). [[link](https://natureofcode.com/book/chapter-9-the-evolution-of-code/)]
-
-### Credits
-
-This activity was created by [Tiago Martins](http://cdv.dei.uc.pt/people/tiago-martins/) and [Sérgio Rebelo](https://cdv.dei.uc.pt/authors/sergio-rebelo/) for the Computational Creativity for Design course unit of the master's degree in [Design and Multimedia](https://dm.dei.uc.pt) (Faculty of Sciences and Technology of the University of Coimbra).
